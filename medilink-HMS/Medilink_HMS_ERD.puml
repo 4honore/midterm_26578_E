@@ -1,0 +1,120 @@
+@startuml Medilink_HMS_ERD
+!define ENTITY class
+!define PK <b><color:red>
+!define FK <color:blue>
+!define UNIQUE <color:green>
+
+title Medilink Hospital Management System - Entity Relationship Diagram
+
+' ===== ENTITIES =====
+
+ENTITY Location {
+  PK id : BIGINT</color></b>
+  UNIQUE code : VARCHAR(50)
+  name : VARCHAR(100) NOT NULL
+  locationType : ENUM(PROVINCE, DISTRICT, SECTOR, CELL, VILLAGE) NOT NULL
+  hospitalName : VARCHAR(200)
+  FK parent_id : BIGINT
+}
+
+ENTITY User {
+  PK id : BIGINT</color></b>
+  UNIQUE username : VARCHAR(255) NOT NULL
+  password : VARCHAR(255) NOT NULL
+  role : VARCHAR(255) NOT NULL
+  FK location_id : BIGINT NOT NULL
+  FK user_profile_id : BIGINT
+}
+
+ENTITY UserProfile {
+  PK id : BIGINT</color></b>
+  email : VARCHAR(150)
+  altPhone : VARCHAR(20)
+}
+
+ENTITY Patient {
+  PK id : BIGINT</color></b>
+  UNIQUE nationalId : VARCHAR(255) NOT NULL
+  firstName : VARCHAR(255) NOT NULL
+  lastName : VARCHAR(255) NOT NULL
+  phone : VARCHAR(255) NOT NULL
+  dateOfBirth : DATE NOT NULL
+}
+
+ENTITY Doctor {
+  PK id : BIGINT</color></b>
+  name : VARCHAR(255) NOT NULL
+  specialization : VARCHAR(255) NOT NULL
+  phone : VARCHAR(255) NOT NULL
+  FK location_id : BIGINT NOT NULL
+}
+
+ENTITY Appointment {
+  PK id : BIGINT</color></b>
+  appointmentDate : TIMESTAMP NOT NULL
+  status : VARCHAR(255) NOT NULL
+  FK patient_id : BIGINT NOT NULL
+  FK doctor_id : BIGINT NOT NULL
+  FK location_id : BIGINT NOT NULL
+}
+
+ENTITY MedicalRecord {
+  PK id : BIGINT</color></b>
+  diagnosis : VARCHAR(1000) NOT NULL
+  treatment : VARCHAR(1000) NOT NULL
+  notes : VARCHAR(2000)
+  recordDate : DATE NOT NULL
+  FK patient_id : BIGINT NOT NULL
+}
+
+ENTITY DoctorPatient {
+  FK doctor_id : BIGINT NOT NULL
+  FK patient_id : BIGINT NOT NULL
+}
+
+' ===== RELATIONSHIPS =====
+
+' Self-Referencing Relationship (Hierarchical Location)
+Location ||--o{ Location : "parent_id\n(Self-Referencing)\nProvince → District → Sector → Cell → Village"
+
+' One-to-One Relationship
+User ||--|| UserProfile : "user_profile_id\n(1:1)\nOne User has One Profile"
+
+' One-to-Many Relationships
+Location ||--o{ User : "location_id\n(1:M)\nOne Location has Many Users"
+Location ||--o{ Doctor : "location_id\n(1:M)\nOne Location has Many Doctors"
+Location ||--o{ Appointment : "location_id\n(1:M)\nOne Location has Many Appointments"
+
+Patient ||--o{ Appointment : "patient_id\n(1:M)\nOne Patient has Many Appointments"
+Patient ||--o{ MedicalRecord : "patient_id\n(1:M)\nOne Patient has Many Medical Records"
+
+Doctor ||--o{ Appointment : "doctor_id\n(1:M)\nOne Doctor has Many Appointments"
+
+' Many-to-Many Relationship (via Join Table)
+Doctor ||--o{ DoctorPatient : "doctor_id"
+Patient ||--o{ DoctorPatient : "patient_id"
+DoctorPatient : "(M:M Join Table)\nDoctors treat Multiple Patients"
+
+' ===== NOTES AND ANNOTATIONS =====
+
+note top of Location : **HIERARCHICAL STRUCTURE**\n• Adjacency List Model\n• Self-referencing parent_id\n• LocationType: PROVINCE, DISTRICT, SECTOR, CELL, VILLAGE\n• Users linked to VILLAGE level\n• Province search navigates up hierarchy
+
+note top of User : **SYSTEM USERS**\n• Roles: ADMIN, DOCTOR, NURSE, RECEPTIONIST, PHARMACIST\n• Linked to Village-level locations\n• Province search via location hierarchy
+
+note top of UserProfile : **ONE-TO-ONE RELATIONSHIP**\n• Extended user information\n• Optional email and alternative phone\n• Demonstrates 1:1 relationship requirement
+
+note top of Patient : **PATIENT MANAGEMENT**\n• Unique National ID validation\n• Complete demographic information\n• Central to appointment and medical record systems
+
+note top of Doctor : **HEALTHCARE PROVIDERS**\n• Assigned to specific locations\n• Specialization tracking\n• Many-to-many relationship with patients
+
+note top of Appointment : **APPOINTMENT SCHEDULING**\n• Links Patient, Doctor, and Location\n• Status tracking: SCHEDULED, COMPLETED, CANCELLED\n• DateTime scheduling support
+
+note top of MedicalRecord : **MEDICAL HISTORY**\n• Patient diagnosis and treatment tracking\n• Comprehensive notes support\n• Date-based record keeping
+
+note top of DoctorPatient : **MANY-TO-MANY JOIN TABLE**\n• Implements M:M relationship\n• Doctors can treat multiple patients\n• Patients can see multiple doctors
+
+' ===== RELATIONSHIP SUMMARY =====
+
+note bottom : **RELATIONSHIP TYPES IMPLEMENTED**\n• **Self-Referencing**: Location → Location (Hierarchical)\n• **One-to-One (1:1)**: User ↔ UserProfile\n• **One-to-Many (1:M)**: Location → Users/Doctors/Appointments, Patient → Appointments/MedicalRecords, Doctor → Appointments\n• **Many-to-One (M:1)**: Users/Doctors/Appointments → Location, Appointments → Patient/Doctor, MedicalRecords → Patient\n• **Many-to-Many (M:M)**: Doctor ↔ Patient (via doctor_patient join table)\n\n**DATABASE FEATURES**\n• Primary Keys: Auto-generated BIGINT IDs\n• Foreign Keys: Proper referential integrity\n• Unique Constraints: username, nationalId, location code\n• Enums: LocationType for data consistency\n• Indexes: Automatic on PKs and FKs for performance
+
+@enduml

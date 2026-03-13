@@ -1,16 +1,16 @@
 {
     "info": {
         "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-        "name": "Medilink HMS API",
-        "description": "Complete API collection for Medilink HMS testing",
+        "name": "Medilink HMS - Complete API Collection",
+        "description": "Complete CRUD API collection for Medilink HMS testing with all HTTP methods",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "item": [
         {
-            "name": "Locations",
+            "name": "1. Locations",
             "item": [
                 {
-                    "name": "Get All Locations",
+                    "name": "Get All Locations (Paginated)",
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -45,7 +45,7 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "http://localhost:8080/api/locations/5",
+                            "raw": "http://localhost:8080/api/locations/1",
                             "protocol": "http",
                             "host": [
                                 "localhost"
@@ -54,14 +54,14 @@
                             "path": [
                                 "api",
                                 "locations",
-                                "5"
+                                "1"
                             ]
                         }
                     },
                     "response": []
                 },
                 {
-                    "name": "Create Location",
+                    "name": "Create Location Hierarchy",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -72,7 +72,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"provinceCode\": \"WK\",\n  \"provinceName\": \"Western Province\",\n  \"district\": \"Karongi\",\n  \"sector\": \"Gitarama\",\n  \"cell\": \"Mukarange\",\n  \"village\": \"Karongi Town\",\n  \"hospitalName\": \"Karongi District Hospital\"\n}"
+                            "raw": "{\n  \"provinceCode\": \"EP\",\n  \"provinceName\": \"Eastern Province\",\n  \"district\": \"Rwamagana\",\n  \"sector\": \"Kigabiro\",\n  \"cell\": \"Nyakariro\",\n  \"village\": \"Nyakariro Village\",\n  \"hospitalName\": \"Rwamagana District Hospital\"\n}"
                         },
                         "url": {
                             "raw": "http://localhost:8080/api/locations",
@@ -88,14 +88,65 @@
                         }
                     },
                     "response": []
+                },
+                {
+                    "name": "Update Location",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"provinceCode\": \"EP\",\n  \"provinceName\": \"Eastern Province\",\n  \"district\": \"Rwamagana\",\n  \"sector\": \"Kigabiro\",\n  \"cell\": \"Nyakariro\",\n  \"village\": \"Nyakariro Village Updated\",\n  \"hospitalName\": \"Rwamagana District Hospital - Renovated\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/locations/20",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "locations",
+                                "20"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Location",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/locations/20",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "locations",
+                                "20"
+                            ]
+                        }
+                    },
+                    "response": []
                 }
             ]
         },
         {
-            "name": "Patients",
+            "name": "2. Patients",
             "item": [
                 {
-                    "name": "Get All Patients",
+                    "name": "Get All Patients (Paginated)",
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -157,7 +208,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"nationalId\": \"1199920045678901\",\n  \"firstName\": \"David\",\n  \"lastName\": \"Nshimiyimana\",\n  \"phone\": \"0788456789\",\n  \"dateOfBirth\": \"1992-11-20\"\n}"
+                            "raw": "{\n  \"nationalId\": \"1199920067890123\",\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Uwimana\",\n  \"phone\": \"0788678901\",\n  \"dateOfBirth\": \"1992-06-15\"\n}"
                         },
                         "url": {
                             "raw": "http://localhost:8080/api/patients",
@@ -173,14 +224,65 @@
                         }
                     },
                     "response": []
+                },
+                {
+                    "name": "Update Patient",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"nationalId\": \"1199920067890123\",\n  \"firstName\": \"Alice Updated\",\n  \"lastName\": \"Uwimana-Mugisha\",\n  \"phone\": \"0788678901\",\n  \"dateOfBirth\": \"1992-06-15\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/patients/6",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "patients",
+                                "6"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Patient",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/patients/6",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "patients",
+                                "6"
+                            ]
+                        }
+                    },
+                    "response": []
                 }
             ]
         },
         {
-            "name": "Doctors",
+            "name": "3. Doctors",
             "item": [
                 {
-                    "name": "Get All Doctors",
+                    "name": "Get All Doctors (Paginated)",
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -210,6 +312,27 @@
                     "response": []
                 },
                 {
+                    "name": "Get Doctor by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/doctors/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "doctors",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
                     "name": "Create Doctor",
                     "request": {
                         "method": "POST",
@@ -221,7 +344,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"name\": \"Dr. Sarah Uwimana\",\n  \"specialization\": \"Dermatology\",\n  \"phone\": \"0788444555\",\n  \"location\": {\"id\": 5}\n}"
+                            "raw": "{\n  \"name\": \"Dr. John Nkurunziza\",\n  \"specialization\": \"Orthopedics\",\n  \"phone\": \"0788777888\",\n  \"location\": {\"id\": 5}\n}"
                         },
                         "url": {
                             "raw": "http://localhost:8080/api/doctors",
@@ -237,14 +360,65 @@
                         }
                     },
                     "response": []
+                },
+                {
+                    "name": "Update Doctor",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Dr. John Nkurunziza - Senior\",\n  \"specialization\": \"Orthopedic Surgery\",\n  \"phone\": \"0788777888\",\n  \"location\": {\"id\": 5}\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/doctors/6",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "doctors",
+                                "6"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Doctor",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/doctors/6",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "doctors",
+                                "6"
+                            ]
+                        }
+                    },
+                    "response": []
                 }
             ]
         },
         {
-            "name": "Users - EXAM CRITICAL",
+            "name": "4. Users - EXAM CRITICAL",
             "item": [
                 {
-                    "name": "Get All Users",
+                    "name": "Get All Users (Paginated)",
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -268,6 +442,27 @@
                                     "key": "size",
                                     "value": "10"
                                 }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get User by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/users/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "users",
+                                "1"
                             ]
                         }
                     },
@@ -328,6 +523,33 @@
                     "response": []
                 },
                 {
+                    "name": "EXAM - Search Northern Province",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/users/search?provinceName=Northern Province",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "users",
+                                "search"
+                            ],
+                            "query": [
+                                {
+                                    "key": "provinceName",
+                                    "value": "Northern Province"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
                     "name": "Create User with Profile",
                     "request": {
                         "method": "POST",
@@ -339,7 +561,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"username\": \"nurse1\",\n  \"password\": \"nurse123\",\n  \"role\": \"RECEPTIONIST\",\n  \"location\": {\"id\": 5},\n  \"userProfile\": {\n    \"email\": \"nurse1@medilink.rw\",\n    \"altPhone\": \"0788666555\"\n  }\n}"
+                            "raw": "{\n  \"username\": \"technician1\",\n  \"password\": \"tech123\",\n  \"role\": \"TECHNICIAN\",\n  \"location\": {\"id\": 10},\n  \"userProfile\": {\n    \"email\": \"technician1@medilink.rw\",\n    \"altPhone\": \"0788999000\"\n  }\n}"
                         },
                         "url": {
                             "raw": "http://localhost:8080/api/users",
@@ -355,14 +577,65 @@
                         }
                     },
                     "response": []
+                },
+                {
+                    "name": "Update User",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"username\": \"technician1\",\n  \"password\": \"tech123updated\",\n  \"role\": \"SENIOR_TECHNICIAN\",\n  \"location\": {\"id\": 10},\n  \"userProfile\": {\n    \"email\": \"senior.technician1@medilink.rw\",\n    \"altPhone\": \"0788999000\"\n  }\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/users/6",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "users",
+                                "6"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete User",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/users/6",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "users",
+                                "6"
+                            ]
+                        }
+                    },
+                    "response": []
                 }
             ]
         },
         {
-            "name": "Appointments",
+            "name": "5. Appointments",
             "item": [
                 {
-                    "name": "Get All Appointments",
+                    "name": "Get All Appointments (Paginated)",
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -392,6 +665,27 @@
                     "response": []
                 },
                 {
+                    "name": "Get Appointment by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/appointments/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "appointments",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
                     "name": "Create Appointment",
                     "request": {
                         "method": "POST",
@@ -403,7 +697,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"appointmentDate\": \"2026-03-20T09:30:00\",\n  \"status\": \"SCHEDULED\",\n  \"patient\": {\"id\": 2},\n  \"doctor\": {\"id\": 2},\n  \"location\": {\"id\": 5}\n}"
+                            "raw": "{\n  \"appointmentDate\": \"2026-03-20T14:30:00\",\n  \"status\": \"SCHEDULED\",\n  \"patient\": {\"id\": 2},\n  \"doctor\": {\"id\": 3},\n  \"location\": {\"id\": 10}\n}"
                         },
                         "url": {
                             "raw": "http://localhost:8080/api/appointments",
@@ -419,14 +713,65 @@
                         }
                     },
                     "response": []
+                },
+                {
+                    "name": "Update Appointment",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"appointmentDate\": \"2026-03-20T15:00:00\",\n  \"status\": \"RESCHEDULED\",\n  \"patient\": {\"id\": 2},\n  \"doctor\": {\"id\": 3},\n  \"location\": {\"id\": 10}\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/appointments/6",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "appointments",
+                                "6"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Appointment",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/appointments/6",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "appointments",
+                                "6"
+                            ]
+                        }
+                    },
+                    "response": []
                 }
             ]
         },
         {
-            "name": "Medical Records",
+            "name": "6. Medical Records",
             "item": [
                 {
-                    "name": "Get All Medical Records",
+                    "name": "Get All Medical Records (Paginated)",
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -456,6 +801,27 @@
                     "response": []
                 },
                 {
+                    "name": "Get Medical Record by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/medical-records/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "medical-records",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
                     "name": "Create Medical Record",
                     "request": {
                         "method": "POST",
@@ -467,7 +833,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"patient\": {\"id\": 2},\n  \"diagnosis\": \"Asthma\",\n  \"treatment\": \"Inhaler prescribed, avoid allergens\",\n  \"recordDate\": \"2026-03-12\"\n}"
+                            "raw": "{\n  \"patient\": {\"id\": 3},\n  \"diagnosis\": \"Migraine Headache\",\n  \"treatment\": \"Prescribed Sumatriptan, recommended rest and hydration\",\n  \"recordDate\": \"2026-03-13\",\n  \"notes\": \"Patient reports stress-related triggers\"\n}"
                         },
                         "url": {
                             "raw": "http://localhost:8080/api/medical-records",
@@ -479,6 +845,57 @@
                             "path": [
                                 "api",
                                 "medical-records"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Medical Record",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"patient\": {\"id\": 3},\n  \"diagnosis\": \"Chronic Migraine Headache\",\n  \"treatment\": \"Prescribed Sumatriptan, recommended lifestyle changes and stress management\",\n  \"recordDate\": \"2026-03-13\",\n  \"notes\": \"Patient reports improvement with stress reduction techniques\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/medical-records/6",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "medical-records",
+                                "6"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Medical Record",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/medical-records/6",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "medical-records",
+                                "6"
                             ]
                         }
                     },
