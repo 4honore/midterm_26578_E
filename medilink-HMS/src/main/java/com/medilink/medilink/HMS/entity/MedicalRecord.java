@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * MedicalRecord Entity - Stores patient medical history and diagnoses
@@ -38,7 +38,7 @@ public class MedicalRecord {
     private String notes;
     
     @Column(nullable = false)
-    private LocalDateTime recordDate;
+    private LocalDate recordDate;
     
     // MANY-TO-ONE RELATIONSHIP: Many Medical Records belong to One Patient
     @ManyToOne(fetch = FetchType.EAGER)

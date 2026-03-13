@@ -10,12 +10,15 @@ import java.util.Optional;
  * LocationRepository - Data access layer for Location entity
  * 
  * EXPLANATION:
- * - Includes methods to retrieve locations by name, type, and parent to build the hierarchy.
+ * - Methods to find locations by name, type, and parent for building hierarchy
+ * - Supports the Adjacency List Model for hierarchical data
  */
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
     
-    // Hierarchy builder queries
-    Optional<Location> findByNameAndLocationTypeAndParentIsNull(String name, String locationType);
-    Optional<Location> findByNameAndLocationTypeAndParent(String name, String locationType, Location parent);
+    // Find root locations (Provinces have no parent)
+    Optional<Location> findByNameAndLocationTypeAndParentIsNull(String name, Location.LocationType locationType);
+    
+    // Find child locations
+    Optional<Location> findByNameAndLocationTypeAndParent(String name, Location.LocationType locationType, Location parent);
 }

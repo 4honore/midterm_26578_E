@@ -10,13 +10,14 @@ import lombok.ToString;
 import java.util.List;
 
 /**
- * Location Entity - Represents a hierarchical administrative division in a single table
+ * Location Entity - Hierarchical Administrative Structure (Adjacency List Model)
  * 
  * EXPLANATION:
- * - Solves the requirement for ONE table named `locations` that holds the entire hierarchy.
- * - @ManyToOne with itself (`parent_id`) creates a self-referencing hierarchy.
- * - This allows saving Province -> District -> Sector -> Cell -> Village interconnected.
- * - Users are assigned to the Village level, which transitively connects them to the Province.
+ * - Single table stores ALL location levels (Province, District, Sector, Cell, Village)
+ * - Self-referencing relationship: each location has a parent (except Province which is root)
+ * - This creates a tree structure: Province → District → Sector → Cell → Village
+ * - Follows the Adjacency List Model for hierarchical data
+ * - Users are linked to Village level, but can navigate up to Province through parent references
  */
 @Entity
 @Table(name = "locations")
@@ -30,16 +31,17 @@ public class Location {
     private Long id;
     
     @Column(length = 50)
-    private String code; // e.g. "KC" for Kigali City, "VIL-01" etc
+    private String code; // e.g. "KC" for Kigali City Province
     
     @Column(nullable = false, length = 100)
-    private String name; // e.g. "Kigali City", "Gasabo", "Kigali Central"
+    private String name; // e.g. "Kigali City", "Gasabo", "Kimironko"
     
     @Column(nullable = false, length = 50)
-    private String locationType; // "PROVINCE", "DISTRICT", "SECTOR", "CELL", "VILLAGE"
+    @Enumerated(EnumType.STRING)
+    private LocationType locationType; // PROVINCE, DISTRICT, SECTOR, CELL, VILLAGE
     
     @Column(length = 200)
-    private String hospitalName; // Nullable, populated at the Village level
+    private String hospitalName; // Only populated at Village level
     
     // SELF-REFERENCING RELATIONSHIP (Hierarchical Structure)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,7 +53,7 @@ public class Location {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     @ToString.Exclude
-    private List<Location> subLocations;
+    private List<Location> children;
     
     // ONE-TO-MANY RELATIONSHIP: One Location (Village) can have many Users
     @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
@@ -70,4 +72,15 @@ public class Location {
     @JsonIgnore
     @ToString.Exclude
     private List<Appointment> appointments;
+    
+    /**
+     * Enum for Location Type - ensures only valid location levels exist
+     */
+    public enum LocationType {
+        PROVINCE,
+        DISTRICT,
+        SECTOR,
+        CELL,
+        VILLAGE
+    }
 }

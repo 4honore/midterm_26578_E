@@ -18,12 +18,12 @@ import java.util.List;
  *    - Used for validation before creating new users
  * 
  * 2. findUsersByProvinceName(String provinceName):
- *    - Finds all users in a specific province by traversing the Location hierarchy.
- *    - User -> Village (location) -> Cell (parent) -> Sector (parent) -> District (parent) -> Province (parent)
- *    - Demonstrates complex JPQL traversing self-referencing relationships.
+ *    - Finds all users in a specific province by traversing the Location hierarchy
+ *    - User → Village (location) → Cell (parent) → Sector (parent) → District (parent) → Province (parent)
+ *    - Demonstrates navigating up the tree structure (4 levels up from Village to Province)
  * 
  * 3. findUsersByProvinceCode(String provinceCode):
- *    - Similar to above but uses province code instead.
+ *    - Similar to above but uses province code instead
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -31,11 +31,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // EXAM REQUIREMENT: existBy() method for validation
     boolean existsByUsername(String username);
     
-    // EXAM REQUIREMENT: Retrieve users by province name
+    // EXAM REQUIREMENT: Retrieve users by province name (navigate up hierarchy)
     @Query("SELECT u FROM User u WHERE u.location.parent.parent.parent.parent.name = :provinceName")
     List<User> findUsersByProvinceName(@Param("provinceName") String provinceName);
     
-    // EXAM REQUIREMENT: Retrieve users by province code
+    // EXAM REQUIREMENT: Retrieve users by province code (navigate up hierarchy)
     @Query("SELECT u FROM User u WHERE u.location.parent.parent.parent.parent.code = :provinceCode")
     List<User> findUsersByProvinceCode(@Param("provinceCode") String provinceCode);
 }
