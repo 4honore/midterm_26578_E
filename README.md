@@ -6,7 +6,7 @@
 
 ## 📊 Entity Relationship Diagram (ERD)
 
-![Medilink HMS ERD](WEbtech%20ERD.svg)
+![Medilink HMS ERD](medilink-HMS/WEbtech%20ERD.svg)
 
 *Complete Entity Relationship Diagram showing all entities, relationships, and database constraints*
 
@@ -125,7 +125,6 @@ List<User> findUsersByProvinceName(@Param("provinceName") String provinceName);
 @Query("SELECT u FROM User u WHERE u.location.parent.parent.parent.parent.code = :provinceCode")
 List<User> findUsersByProvinceCode(@Param("provinceCode") String provinceCode);
 ```
-
 ## 🧪 Testing & Validation
 
 ### **Automated Data Initialization**
@@ -190,7 +189,6 @@ boolean existsByUsername(String username);      // Users
 - **Pagination**: `Pageable` support for large datasets
 - **Connection Pooling**: HikariCP for optimal database performance
 - **Query Optimization**: JPA criteria queries and custom JPQL
-
 ## 🚀 Deployment & Configuration
 
 ### **Prerequisites**
@@ -257,7 +255,6 @@ This project demonstrates mastery of:
 - **JPA/Hibernate**: Entity mapping, relationships, queries, transactions
 - **REST API Design**: HTTP methods, status codes, pagination, error handling
 - **Software Architecture**: Layered design, separation of concerns, design patterns
-
 ## 📄 Project Files Structure
 
 ```

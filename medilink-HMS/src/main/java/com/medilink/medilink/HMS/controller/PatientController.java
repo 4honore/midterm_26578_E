@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 /**
  * PatientController - REST API endpoints for Patient management
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * - POST endpoint validates National ID before creating patient
  * - Supports pagination and sorting for large datasets
  * - Returns appropriate HTTP status codes (201 for created, 200 for success, 204 for delete)
+ * - @Valid annotation triggers validation on request body
  */
 @RestController
 @RequestMapping("/api/patients")
@@ -26,7 +28,7 @@ public class PatientController {
     private final PatientService patientService;
 
     @PostMapping
-    public ResponseEntity<Patient> create(@RequestBody Patient patient) {
+    public ResponseEntity<Patient> create(@Valid @RequestBody Patient patient) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(patientService.savePatient(patient));
     }
@@ -43,7 +45,7 @@ public class PatientController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Patient> update(@PathVariable Long id,
-                                          @RequestBody Patient patient) {
+                                          @Valid @RequestBody Patient patient) {
         return ResponseEntity.ok(patientService.updatePatient(id, patient));
     }
 

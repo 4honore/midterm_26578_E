@@ -1,6 +1,8 @@
 package com.medilink.medilink.HMS.service;
 
 import com.medilink.medilink.HMS.entity.User;
+import com.medilink.medilink.HMS.exception.DuplicateResourceException;
+import com.medilink.medilink.HMS.exception.ResourceNotFoundException;
 import com.medilink.medilink.HMS.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -37,41 +39,58 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
-public User saveUser(User user) {
+
+    public User saveUser(User user) {
         // EXAM REQUIREMENT: Validate duplicate username before saving
         if (userRepository.existsByUsername(user.getUsername())) {
-            throw new RuntimeException("User with username " + user.getUsername() + " already exists");
+            throw new DuplicateResourceException("User with username " + user.getUsername() + " already exists");
         }
         return userRepository.save(user);
     }
-public User getUserById(Long id) {
+
+    public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     }
-public List<User> getAllUsers() {
+
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-public Page<User> getAllUsersPaginated(Pageable pageable) {
+
+    public Page<User> getAllUsersPaginated(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
-public List<User> getUsersByProvinceName(String provinceName) {
+
+    public List<User> getUsersByProvinceName(String provinceName) {
         // EXAM REQUIREMENT: Retrieve users by province name
         // This method queries users based on their location's province name by traversing the hierarchy up to the province level (4 parents up)
         return userRepository.findUsersByProvinceName(provinceName);
     }
-public List<User> getUsersByProvinceCode(String provinceCode) {
+
+    public List<User> getUsersByProvinceCode(String provinceCode) {
         // EXAM REQUIREMENT: Retrieve users by province code
         // This method queries users based on their location's province code
         return userRepository.findUsersByProvinceCode(provinceCode);
     }
-public User updateUser(Long id, User user) {
+
+    public User updateUser(Long id, User user) {
         User existingUser = getUserById(id);
+        
+        // Check if trying to change username to one that already exists
+        if (!existingUser.getUsername().equals(user.getUsername()) && 
+            userRepository.existsByUsername(user.getUsername())) {
+            throw new DuplicateResourceException("User with username " + user.getUsername() + " already exists");
+        }
+        
+        existingUser.setUsername(user.getUsername());
         existingUser.setPassword(user.getPassword());
         existingUser.setRole(user.getRole());
         existingUser.setLocation(user.getLocation());
+        existingUser.setUserProfile(user.getUserProfile());
         return userRepository.save(existingUser);
     }
-public void deleteUser(Long id) {
+
+    public void deleteUser(Long id) {
         User user = getUserById(id);
         userRepository.delete(user);
     }
